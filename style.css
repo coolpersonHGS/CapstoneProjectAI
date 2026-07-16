@@ -1,0 +1,223 @@
+body{
+    margin:0;
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    background:
+        radial-gradient(circle at top right,#ffe5e5 0%,transparent 30%),
+        radial-gradient(circle at bottom left,#ffe8dc 0%,transparent 35%),
+        #fff9f7;
+
+    color:#4d3a3a;
+
+    line-height:1.7;
+
+    background:
+        url("leaf-pattern.svg") top right no-repeat,
+        url("leaf-pattern.svg") bottom left no-repeat,
+        #fff9f7;
+
+    background-size:220px;
+}
+#top_decoration{
+
+    height:150px;
+
+    background:linear-gradient(
+        90deg,
+        #691c1c,
+        #df7474,
+        #e36262
+    );
+
+    box-shadow:0 20px 15px rgba(20, 20, 20, 0.08);
+
+}
+
+blockquote{
+
+    text-align:center;
+
+    color:#7d5555;
+
+    font-style:italic;
+
+    margin-bottom:45px;
+
+}
+
+
+#basic_description{
+
+    text-align:center;
+
+    max-width:850px;
+
+    margin:auto;
+
+    font-size:1.1rem;
+
+}
+
+
+.content{
+
+    max-width:1100px;
+
+    margin:auto;
+
+    padding:50px 30px;
+
+}
+
+.title{
+
+    text-align:center;
+
+    font-size:2.8rem;
+
+    color:#8d3737;
+
+    margin-bottom:20px;
+
+}
+
+
+#download_button{
+
+    display:block;
+
+    margin:50px auto;
+
+    padding:18px 45px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:linear-gradient(
+        135deg,
+        #de6767,
+        #f08d8d
+    );
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 8px 20px rgba(210,90,90,.3);
+
+}
+
+#download_button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 30px rgba(210,90,90,.35);
+
+}
+
+
+.horizontal_container{
+
+    display:flex;
+
+    gap:30px;
+
+    justify-content:center;
+
+    margin-top:40px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.box_element{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    flex:1;
+
+    min-width:260px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.06);
+
+    transition:.25s;
+
+    border:1px solid #f5d7d7;
+
+}
+
+
+
+#page_footer{
+
+    background:#b95252;
+
+    color:rgb(255, 217, 217);
+
+    margin-top:80px;
+
+    padding:50px;
+
+    text-align:center;
+
+}
+
+#page_footer ul{
+
+    list-style:none;
+
+    padding:0;
+
+}
+
+#page_footer li{
+
+    margin:8px 0;
+
+}
+
+
+.carousel-container {
+  margin: 0 auto;
+  overflow: scroll;
+
+  display: flex;
+  scroll-snap-type: x mandatory; /* Makes the swipe snap into place */
+  gap: 50px;
+  width: 70%;
+}
+
+.carousel-slide {
+  flex: 0 0 80%; /* Each slide takes up the full width */
+  scroll-snap-align: center; /* Centers the current slide */
+  padding: 40px;
+  background: #f4f4f4;
+  border-radius: 8px;
+
+
+  background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    /*flex:1;*/
+
+    min-width:260px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.06);
+
+    transition:.25s;
+
+    border:1px solid #f5d7d7;
+}
