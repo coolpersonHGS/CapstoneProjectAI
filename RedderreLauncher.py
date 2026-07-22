@@ -9,7 +9,7 @@ clock = pygame.time.Clock()
 #--------------------------------------------------------------------------------------
 
 
-normal_font = pygame.font.SysFont("Arial", 40)
+normal_font = pygame.font.SysFont("Arial", 12)
 
 
 
@@ -86,9 +86,24 @@ class TextInputBox(VisualButtonElement):
         DisplayStr : str = ""
 
     def Render(self):
+        global normal_font
+        fontH, fontW = normal_font.size("word") #height and width
+        fontW *= 0.5
+        charactersperline = int(self.surfaceobj.get_rect().width / fontW)
+        linecount = max(1, int(len(self.DisplayStr) / charactersperline))
+
         RederreWindow.blit(self.surfaceobj, (self.PositionX, self.PositionY))
-        text_surface = normal_font.render(self.DisplayStr, True, pygame.Color("blue"))
-        RederreWindow.blit(text_surface, (self.PositionX, self.PositionY) )
+
+        stringsplit = [] #["helloia", "hi", "whatsup"]
+
+        for splitdex in range (linecount):
+           stringsplit.append(self.DisplayStr[splitdex * charactersperline : splitdex * icharactersperline + charactersperline])
+
+        for index in range(linecount):
+            text_surface = normal_font.render(stringsplit[index], True, pygame.Color("blue"))
+            RederreWindow.blit(text_surface, (self.PositionX, self.PositionY + (fontH * index) ) )
+
+        print(charactersperline)
 
 defaultnull = TextInputBox()
 defaultnull.VisualName = "NULL"
@@ -164,7 +179,7 @@ TaskInput = TextInputBox()
 TaskInput.surfaceobj = pygame.Surface((200, 80))
 TaskInput.surfaceobj.fill((200, 0, 0))
 TaskInput.PositionX = 500
-TaskInput.DisplayStr = ""
+TaskInput.DisplayStr = "whats up \n gang"
 TaskInput.PositionY = 200
 TaskInput.VisualName = "taskinput"
 mainmenu.append(TaskInput)
@@ -210,6 +225,8 @@ def Buttonclicked(Buttonname):
 
 
 def ButtonInGroupClicked(mouseX, mouseY, ActivateEvents):
+    global ActiveTextBox
+    ActiveTextBox = ""
     if(ActiveScreen  == "mainmenu"):
         for element in mainmenu:
             if(element.MouseOver(mouseX, mouseY) ):
@@ -299,12 +316,13 @@ while LauncherRunning:
                 ActiveTextBox = ""
                 
                 
-            if event.key == pygame.K_BACKSPACE:
+            if event.key == pygame.K_BACKSPACE and ActiveTextBox != "":
                 SmallerText = GetTextBoxFromName(ActiveTextBox).DisplayStr[:-1]
                 GetTextBoxFromName(ActiveTextBox).DisplayStr = SmallerText
                 print(GetTextBoxFromName(ActiveTextBox).DisplayStr)
             
-            GetTextBoxFromName(ActiveTextBox).DisplayStr += event.unicode
+            else: 
+                GetTextBoxFromName(ActiveTextBox).DisplayStr += event.unicode
 
             
               
