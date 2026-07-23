@@ -1,6 +1,7 @@
 import subprocess
 import sys
 import pygame
+import math
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -8,8 +9,9 @@ clock = pygame.time.Clock()
 #--------------------------------- Global Variables -----------------------------------
 #--------------------------------------------------------------------------------------
 
-
-normal_font = pygame.font.SysFont("Arial", 12)
+AImood = ""
+focustask = ""
+AIDifficulty = 0
 
 
 
@@ -74,36 +76,68 @@ class VisualButtonElement:
         objrect : pygame.Rect = self.surfaceobj.get_rect(topleft=(self.PositionX, self.PositionY))
         return objrect.collidepoint(MouseX, MouseY)
     
-class TextInputBox(VisualButtonElement):
-    
 
-
+class VisualTextElement(VisualButtonElement): #this MIGHT be a copy paste bruv
     def __init__(self):
         VisualName : str = ""
+        PositionX : int = 0
+        PositionY : int = 0
+        surfaceobj : pygame.Surface
+        FontSize : int = 0
+        DisplayStr : str = ""
+
+    def Render(self):
+            
+            normal_font = pygame.font.SysFont("monospace", self.FontSize)
+
+            fontH, fontW = normal_font.size("word") #height and width
+            fontW *= 0.6
+            charactersperline = int(self.surfaceobj.get_rect().width / fontW)
+            
+            linecount = max(1, int(math.ceil(len(self.DisplayStr) / charactersperline)))
+
+            RederreWindow.blit(self.surfaceobj, (self.PositionX, self.PositionY))
+
+            stringsplit = [self.DisplayStr[i:i + charactersperline] for i in range(0, len(self.DisplayStr), charactersperline)] #["helloia", "hi", "whatsup"]
+            
+        
+        
+
+            for index in range(min(len(stringsplit), int(self.surfaceobj.get_rect().h / (fontH * 0.5)))):
+                text_surface = normal_font.render(stringsplit[index], True, pygame.Color("blue"))
+                RederreWindow.blit(text_surface, (self.PositionX, self.PositionY + (fontH * 0.6 * index) ) )
+
+
+
+class TextInputBox(VisualButtonElement):
+    def __init__(self):
+        VisualName : str = ""
+        FontSize : int = 0
         PositionX : int = 0
         PositionY : int = 0
         surfaceobj : pygame.Surface
         DisplayStr : str = ""
 
     def Render(self):
-        global normal_font
+        normal_font = pygame.font.SysFont("monospace", self.FontSize)
         fontH, fontW = normal_font.size("word") #height and width
-        fontW *= 0.5
+        fontW *= 0.6
         charactersperline = int(self.surfaceobj.get_rect().width / fontW)
-        linecount = max(1, int(len(self.DisplayStr) / charactersperline))
+        
+        linecount = max(1, int(math.ceil(len(self.DisplayStr) / charactersperline)))
 
         RederreWindow.blit(self.surfaceobj, (self.PositionX, self.PositionY))
 
-        stringsplit = [] #["helloia", "hi", "whatsup"]
+        stringsplit = [self.DisplayStr[i:i + charactersperline] for i in range(0, len(self.DisplayStr), charactersperline)] #["helloia", "hi", "whatsup"]
+        
+       
+       
 
-        for splitdex in range (linecount):
-           stringsplit.append(self.DisplayStr[splitdex * charactersperline : splitdex * icharactersperline + charactersperline])
-
-        for index in range(linecount):
+        for index in range(min(len(stringsplit), int(self.surfaceobj.get_rect().h / (fontH * 0.5)) )):
             text_surface = normal_font.render(stringsplit[index], True, pygame.Color("blue"))
-            RederreWindow.blit(text_surface, (self.PositionX, self.PositionY + (fontH * index) ) )
+            RederreWindow.blit(text_surface, (self.PositionX, self.PositionY + (fontH * 0.6 * index) ) )
 
-        print(charactersperline)
+       
 
 defaultnull = TextInputBox()
 defaultnull.VisualName = "NULL"
@@ -173,16 +207,47 @@ BackButton.VisualName = "back"
 normalsettings.append(BackButton)
 
 
+PersonalityInputLabel = VisualTextElement()
+PersonalityInputLabel.surfaceobj = pygame.Surface((350, 80), pygame.SRCALPHA)
+PersonalityInputLabel.surfaceobj.fill((0, 0, 0, 0))
+PersonalityInputLabel.PositionX = 500
+PersonalityInputLabel.DisplayStr = "AI behavior:"
+PersonalityInputLabel.FontSize = 15
+PersonalityInputLabel.PositionY = 50
+PersonalityInputLabel.VisualName = "label"
+normalsettings.append(PersonalityInputLabel)
+
+PersonalityTaskInput = TextInputBox()
+PersonalityTaskInput.surfaceobj = pygame.Surface((200, 80))
+PersonalityTaskInput.surfaceobj.fill((200, 20, 20))
+PersonalityTaskInput.FontSize = 10
+PersonalityTaskInput.PositionX = 500
+PersonalityTaskInput.PositionY = 70
+PersonalityTaskInput.DisplayStr = "Enter a mood for the AI! (Ex: 'Calm')"
+PersonalityTaskInput.VisualName = "taskinput"
+normalsettings.append(PersonalityTaskInput)
+
+
+InputLabel = VisualTextElement()
+InputLabel.surfaceobj = pygame.Surface((350, 80), pygame.SRCALPHA)
+InputLabel.surfaceobj.fill((0, 0, 0, 0))
+InputLabel.PositionX = 500
+InputLabel.DisplayStr = "Your focus:"
+InputLabel.FontSize = 15
+InputLabel.PositionY = 250
+InputLabel.VisualName = "label"
+normalsettings.append(InputLabel)
 
 TaskInput = TextInputBox()
-#LaunchButton.surfaceobj = pygame.image.load('launch_button.png').convert_alpha()
 TaskInput.surfaceobj = pygame.Surface((200, 80))
-TaskInput.surfaceobj.fill((200, 0, 0))
+TaskInput.surfaceobj.fill((200, 20, 20))
+TaskInput.FontSize = 10
 TaskInput.PositionX = 500
-TaskInput.DisplayStr = "whats up \n gang"
-TaskInput.PositionY = 200
+TaskInput.PositionY = 280
+TaskInput.DisplayStr = "Enter what you will be focusing  on here! (Ex: 'I want to focus on my homework')"
 TaskInput.VisualName = "taskinput"
-mainmenu.append(TaskInput)
+normalsettings.append(TaskInput)
+
 
 
 
@@ -210,6 +275,8 @@ def Buttonclicked(Buttonname):
     global ActiveTextBox
     if(Buttonname == "taskinput"):
         ActiveTextBox = "taskinput"
+        if(TaskInput.DisplayStr == "Enter what you will be focusing  on here! (Ex: 'I want to focus on my homework')"):
+            TaskInput.DisplayStr = ""
     elif (Buttonname == "back"):
         ActiveScreen = "mainmenu"
     elif(Buttonname == "launch"):
@@ -274,8 +341,8 @@ def GetTextBoxFromName(name):
         if TextElm3.VisualName == name and isinstance(TextElm3, TextInputBox):
     
             return TextElm3
-       
-        return defaultnull
+    print(f"No element with name {name} found.")
+    return defaultnull
 
 
     
@@ -319,14 +386,13 @@ while LauncherRunning:
             if event.key == pygame.K_BACKSPACE and ActiveTextBox != "":
                 SmallerText = GetTextBoxFromName(ActiveTextBox).DisplayStr[:-1]
                 GetTextBoxFromName(ActiveTextBox).DisplayStr = SmallerText
+                print(GetTextBoxFromName(ActiveTextBox).VisualName)
                 print(GetTextBoxFromName(ActiveTextBox).DisplayStr)
             
             else: 
                 GetTextBoxFromName(ActiveTextBox).DisplayStr += event.unicode
 
-            
-              
-   
+    #
     
     RederreWindow.fill((200, 80, 80))
     RederreWindow.blit(Decor, (0,0))
