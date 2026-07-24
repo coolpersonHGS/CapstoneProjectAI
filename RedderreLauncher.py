@@ -208,7 +208,7 @@ normalsettings.append(BackButton)
 
 
 PersonalityInputLabel = VisualTextElement()
-PersonalityInputLabel.surfaceobj = pygame.Surface((350, 80), pygame.SRCALPHA)
+PersonalityInputLabel.surfaceobj = pygame.Surface((350, 20), pygame.SRCALPHA)
 PersonalityInputLabel.surfaceobj.fill((0, 0, 0, 0))
 PersonalityInputLabel.PositionX = 500
 PersonalityInputLabel.DisplayStr = "AI behavior:"
@@ -224,12 +224,12 @@ PersonalityTaskInput.FontSize = 10
 PersonalityTaskInput.PositionX = 500
 PersonalityTaskInput.PositionY = 70
 PersonalityTaskInput.DisplayStr = "Enter a mood for the AI! (Ex: 'Calm')"
-PersonalityTaskInput.VisualName = "taskinput"
+PersonalityTaskInput.VisualName = "personalityinput"
 normalsettings.append(PersonalityTaskInput)
 
 
 InputLabel = VisualTextElement()
-InputLabel.surfaceobj = pygame.Surface((350, 80), pygame.SRCALPHA)
+InputLabel.surfaceobj = pygame.Surface((350, 20), pygame.SRCALPHA)
 InputLabel.surfaceobj.fill((0, 0, 0, 0))
 InputLabel.PositionX = 500
 InputLabel.DisplayStr = "Your focus:"
@@ -273,10 +273,15 @@ customization.append(BackButton2)
 def Buttonclicked(Buttonname):
     global ActiveScreen
     global ActiveTextBox
+
     if(Buttonname == "taskinput"):
         ActiveTextBox = "taskinput"
         if(TaskInput.DisplayStr == "Enter what you will be focusing  on here! (Ex: 'I want to focus on my homework')"):
             TaskInput.DisplayStr = ""
+    if(Buttonname == "personalityinput"):
+        ActiveTextBox = "personalityinput"
+        if(PersonalityTaskInput.DisplayStr == "Enter a mood for the AI! (Ex: 'Calm')"):
+            PersonalityTaskInput.DisplayStr = ""
     elif (Buttonname == "back"):
         ActiveScreen = "mainmenu"
     elif(Buttonname == "launch"):
@@ -341,7 +346,7 @@ def GetTextBoxFromName(name):
         if TextElm3.VisualName == name and isinstance(TextElm3, TextInputBox):
     
             return TextElm3
-    print(f"No element with name {name} found.")
+    print(f"No textbox with name {name} found.")
     return defaultnull
 
 
