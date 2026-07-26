@@ -2,6 +2,11 @@ import subprocess
 import sys
 import pygame
 import math
+import psutil
+import os
+import time
+import setproctitle
+setproctitle.setproctitle("Redderre_Launcher")
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -9,9 +14,9 @@ clock = pygame.time.Clock()
 #--------------------------------- Global Variables -----------------------------------
 #--------------------------------------------------------------------------------------
 
-AImood = ""
-focustask = ""
-AIDifficulty = 0
+AImood = "calm"
+focustask = "Doing Homework"
+AIDifficulty = 5
 
 
 
@@ -285,7 +290,17 @@ def Buttonclicked(Buttonname):
     elif (Buttonname == "back"):
         ActiveScreen = "mainmenu"
     elif(Buttonname == "launch"):
+        process = subprocess.Popen(
+            [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RederreAgent.py"), AImood, focustask, str(AIDifficulty) ],
+            #stdout=subprocess.DEVNULL,  
+            #stderr=subprocess.DEVNULL, 
+            #stdin=subprocess.DEVNULL,  
+            start_new_session=True,      
+            cwd=os.path.dirname(os.path.abspath(__file__))
+        )
+        
         print("launching...")
+        time.sleep(2)
     elif (Buttonname == "settings"):
         
         ActiveScreen = "normalsettings"
@@ -391,8 +406,7 @@ while LauncherRunning:
             if event.key == pygame.K_BACKSPACE and ActiveTextBox != "":
                 SmallerText = GetTextBoxFromName(ActiveTextBox).DisplayStr[:-1]
                 GetTextBoxFromName(ActiveTextBox).DisplayStr = SmallerText
-                print(GetTextBoxFromName(ActiveTextBox).VisualName)
-                print(GetTextBoxFromName(ActiveTextBox).DisplayStr)
+               
             
             else: 
                 GetTextBoxFromName(ActiveTextBox).DisplayStr += event.unicode
