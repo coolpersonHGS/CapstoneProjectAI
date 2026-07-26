@@ -201,6 +201,16 @@ LaunchButton.PositionY = 400
 LaunchButton.VisualName = "launch"
 mainmenu.append(LaunchButton)
 
+shutdownbutton = VisualButtonElement()
+shutdownbutton.surfaceobj = pygame.image.load('launch_button.png').convert_alpha()
+shutdownbutton.surfaceobj = pygame.transform.smoothscale(shutdownbutton.surfaceobj, (80, 50))
+shutdownbutton.PositionX = 700
+shutdownbutton.PositionY = 300
+shutdownbutton.VisualName = "shutdown"
+mainmenu.append(shutdownbutton)
+
+
+
 # settings
 
 BackButton = VisualButtonElement()
@@ -290,20 +300,44 @@ def Buttonclicked(Buttonname):
     elif (Buttonname == "back"):
         ActiveScreen = "mainmenu"
     elif(Buttonname == "launch"):
-        process = subprocess.Popen(
-            [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RederreAgent.py"), AImood, focustask, str(AIDifficulty) ],
-            #stdout=subprocess.DEVNULL,  
-            #stderr=subprocess.DEVNULL, 
-            #stdin=subprocess.DEVNULL,  
-            start_new_session=True,      
-            cwd=os.path.dirname(os.path.abspath(__file__))
-        )
+
         
-        print("launching...")
-        time.sleep(2)
+        
+        try:
+            open("PIDinfo.txt")
+        except:
+            open("PIDinfo.txt", "w")
+
+        if(open("PIDinfo.txt").read() == ""): #No content in the file; no agent is running, so we can create one
+            process = subprocess.Popen(
+                        [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RedderreAgent.py"), AImood, focustask, str(AIDifficulty) ],
+                        stdout=subprocess.DEVNULL,  
+                        stderr=subprocess.DEVNULL, 
+                        stdin=subprocess.DEVNULL,  
+                        start_new_session=True,      
+                        cwd=os.path.dirname(os.path.abspath(__file__))
+                    )
+            print("launching...")
+            with open("PIDinfo.txt", "w") as data: # store the PID
+                data.write(str(process.pid))
+                data.close()
+    elif(Buttonname == "shutdown"):
+
+        try:
+            open("PIDinfo.txt").read()
+        except:
+            open("PIDinfo.txt", "w")
+
+        try:
+            if psutil.pid_exists(int(open("PIDinfo.txt").read())):
+                process = psutil.Process(int(open("PIDinfo.txt").read()))
+                process.terminate()
+        except:
+            pass
+    
     elif (Buttonname == "settings"):
         
-        ActiveScreen = "normalsettings"
+            ActiveScreen = "normalsettings"
 
     elif (Buttonname == "customization"):
         ActiveScreen = "customization"
