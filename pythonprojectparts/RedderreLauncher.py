@@ -496,7 +496,7 @@ while LauncherRunning:
     for event in events:
         if event.type == pygame.QUIT:
             LauncherRunning = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONDOWN and pygame.key.get_focused():
             if event.button == 1: 
                 if(ActiveTextBox == "taskinput"):
                         focustask = GetTextBoxFromName("taskinput").DisplayStr
@@ -518,7 +518,7 @@ while LauncherRunning:
                 
                                     AIDifficulty = value
                 result = ButtonInGroupClicked(event.pos[0], event.pos[1], True)
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN and pygame.key.get_focused():
             if event.key == pygame.K_RETURN:
                 if(ActiveTextBox == "taskinput"):
                     focustask = GetTextBoxFromName("taskinput").DisplayStr
