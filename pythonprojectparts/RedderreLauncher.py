@@ -10,6 +10,9 @@ setproctitle.setproctitle("Redderre_Launcher")
 pygame.init()
 clock = pygame.time.Clock()
 
+print()
+os.chdir(os.getcwd() + '/pythonprojectparts')
+
 #--------------------------------------------------------------------------------------
 #--------------------------------- Global Variables -----------------------------------
 #--------------------------------------------------------------------------------------
@@ -308,12 +311,12 @@ def Buttonclicked(Buttonname):
         except:
             open("PIDinfo.txt", "w")
 
-        if(open("PIDinfo.txt").read() == ""): #No content in the file; no agent is running, so we can create one
+        if not psutil.pid_exists(int(open("PIDinfo.txt").read())): #No content in the file; no agent is running, so we can create one
             process = subprocess.Popen(
                         [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RedderreAgent.py"), AImood, focustask, str(AIDifficulty) ],
-                        stdout=subprocess.DEVNULL,  
-                        stderr=subprocess.DEVNULL, 
-                        stdin=subprocess.DEVNULL,  
+                        #stdout=subprocess.DEVNULL,  
+                        #stderr=subprocess.DEVNULL, 
+                        #stdin=subprocess.DEVNULL,  
                         start_new_session=True,      
                         cwd=os.path.dirname(os.path.abspath(__file__))
                     )
@@ -321,19 +324,22 @@ def Buttonclicked(Buttonname):
             with open("PIDinfo.txt", "w") as data: # store the PID
                 data.write(str(process.pid))
                 data.close()
+                
     elif(Buttonname == "shutdown"):
 
+        data = open("PIDinfo.txt")
         try:
-            open("PIDinfo.txt").read()
+            data.read()
         except:
             open("PIDinfo.txt", "w")
 
-        try:
-            if psutil.pid_exists(int(open("PIDinfo.txt").read())):
-                process = psutil.Process(int(open("PIDinfo.txt").read()))
-                process.terminate()
-        except:
-            pass
+        
+        data.close()
+        if psutil.pid_exists(int(data.read())):
+            process = psutil.Process(int(data.read()))
+            process.terminate()
+        data.close()
+            
     
     elif (Buttonname == "settings"):
         
@@ -433,6 +439,12 @@ while LauncherRunning:
                 result = ButtonInGroupClicked(event.pos[0], event.pos[1], True)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+                if(ActiveTextBox == "taskinput"):
+                    focustask = GetTextBoxFromName("taskinput").DisplayStr
+                elif(ActiveTextBox == "personalityinput"):
+                    AImood == GetTextBoxFromName("personalityinput").DisplayStr
+
+
                
                 ActiveTextBox = ""
                 
