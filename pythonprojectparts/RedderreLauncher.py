@@ -17,9 +17,9 @@ os.chdir(os.getcwd() + '/pythonprojectparts')
 #--------------------------------- Global Variables -----------------------------------
 #--------------------------------------------------------------------------------------
 
-AImood = "calm"
-focustask = "Doing Homework"
-AIDifficulty = 5
+AImood = ""
+focustask = ""
+AIDifficulty = -1
 
 
 
@@ -179,13 +179,13 @@ customization.append(CoolIcon)
 
 
 
-CustomizeButton = VisualButtonElement()
-CustomizeButton.surfaceobj = pygame.image.load('Customization.png').convert_alpha()
-CustomizeButton.surfaceobj = pygame.transform.smoothscale(CustomizeButton.surfaceobj, (80, 50))
-CustomizeButton.PositionX = 500
-CustomizeButton.PositionY = 400
-CustomizeButton.VisualName = "customization"
-mainmenu.append(CustomizeButton)
+#CustomizeButton = VisualButtonElement()
+#CustomizeButton.surfaceobj = pygame.image.load('Customization.png').convert_alpha()
+#CustomizeButton.surfaceobj = pygame.transform.smoothscale(CustomizeButton.surfaceobj, (80, 50))
+#CustomizeButton.PositionX = 500
+#CustomizeButton.PositionY = 400
+#CustomizeButton.VisualName = "customization"
+#mainmenu.append(CustomizeButton)
 
 
 SettingsButton = VisualButtonElement()
@@ -205,7 +205,7 @@ LaunchButton.VisualName = "launch"
 mainmenu.append(LaunchButton)
 
 shutdownbutton = VisualButtonElement()
-shutdownbutton.surfaceobj = pygame.image.load('launch_button.png').convert_alpha()
+shutdownbutton.surfaceobj = pygame.image.load('close_button.png').convert_alpha()
 shutdownbutton.surfaceobj = pygame.transform.smoothscale(shutdownbutton.surfaceobj, (80, 50))
 shutdownbutton.PositionX = 700
 shutdownbutton.PositionY = 300
@@ -223,6 +223,32 @@ BackButton.PositionX = 100
 BackButton.PositionY = 400
 BackButton.VisualName = "back"
 normalsettings.append(BackButton)
+
+
+strictnessInputLabel = VisualTextElement()
+strictnessInputLabel.surfaceobj = pygame.Surface((250, 20), pygame.SRCALPHA)
+strictnessInputLabel.surfaceobj.fill((0, 0, 0, 0))
+strictnessInputLabel.PositionX = 500
+strictnessInputLabel.DisplayStr = "Level of strictness (1-10)"
+strictnessInputLabel.FontSize = 15
+strictnessInputLabel.PositionY = 400
+strictnessInputLabel.VisualName = "label"
+normalsettings.append(strictnessInputLabel)
+
+strictnessTaskInput = TextInputBox()
+strictnessTaskInput.surfaceobj = pygame.Surface((250, 30))
+strictnessTaskInput.surfaceobj.fill((200, 20, 20))
+strictnessTaskInput.FontSize = 10
+strictnessTaskInput.PositionX = 500
+strictnessTaskInput.PositionY = 415
+strictnessTaskInput.DisplayStr = "Enter a level of strictness"
+strictnessTaskInput.VisualName = "strictnessinput"
+normalsettings.append(strictnessTaskInput)
+
+
+
+
+
 
 
 PersonalityInputLabel = VisualTextElement()
@@ -291,6 +317,9 @@ customization.append(BackButton2)
 def Buttonclicked(Buttonname):
     global ActiveScreen
     global ActiveTextBox
+    global AImood
+    global focustask
+    global AIDifficulty
 
     if(Buttonname == "taskinput"):
         ActiveTextBox = "taskinput"
@@ -300,45 +329,78 @@ def Buttonclicked(Buttonname):
         ActiveTextBox = "personalityinput"
         if(PersonalityTaskInput.DisplayStr == "Enter a mood for the AI! (Ex: 'Calm')"):
             PersonalityTaskInput.DisplayStr = ""
+    if(Buttonname == "strictnessinput"):
+            ActiveTextBox = "strictnessinput"
+            if(strictnessTaskInput.DisplayStr == "Enter a level of strictness"):
+                strictnessTaskInput.DisplayStr = ""
     elif (Buttonname == "back"):
         ActiveScreen = "mainmenu"
     elif(Buttonname == "launch"):
+        if(AImood != "" and focustask!= "" and AIDifficulty > 0 ):
+            try:
+                open("PIDinfo.txt")
+            except:
+                open("PIDinfo.txt", "w")
+            foundpid : int = -1
 
-        
-        
-        try:
-            open("PIDinfo.txt")
-        except:
-            open("PIDinfo.txt", "w")
-
-        if not psutil.pid_exists(int(open("PIDinfo.txt").read())): #No content in the file; no agent is running, so we can create one
-            process = subprocess.Popen(
-                        [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RedderreAgent.py"), AImood, focustask, str(AIDifficulty) ],
-                        #stdout=subprocess.DEVNULL,  
-                        #stderr=subprocess.DEVNULL, 
-                        #stdin=subprocess.DEVNULL,  
-                        start_new_session=True,      
-                        cwd=os.path.dirname(os.path.abspath(__file__))
-                    )
-            print("launching...")
-            with open("PIDinfo.txt", "w") as data: # store the PID
-                data.write(str(process.pid))
-                data.close()
-                
+            try:
+                foundpid = int(open("PIDinfo.txt").read())
+            except:
+                pass
+            
+            if not psutil.pid_exists(foundpid): #No content in the file; no agent is running, so we can create one
+                process = subprocess.Popen(
+                            [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RedderreAgent.py"), AImood,   focustask.lower(), str(AIDifficulty) ],
+                            stdout=subprocess.DEVNULL,  
+                            stderr=subprocess.DEVNULL, 
+                            stdin=subprocess.DEVNULL,  
+                            start_new_session=True,      
+                            cwd=os.path.dirname(os.path.abspath(__file__))
+                        )
+                print("launching...")
+                with open("PIDinfo.txt", "w") as data: # store the PID
+                    data.write(str(process.pid))
+                    data.close()
+                    print("wrote to file")
+        else:
+            warnpopup = VisualButtonElement()
+            warnpopup.surfaceobj = pygame.image.load('warnpopup.png').convert_alpha()
+            warnpopup.surfaceobj = pygame.transform.smoothscale(warnpopup.surfaceobj, (50, 50))
+            warnpopup.PositionX = 570
+            warnpopup.PositionY = 380
+            warnpopup.VisualName = ""
+            mainmenu.append(warnpopup)
+            #print("Missing content" + AImood + focustask)
+                    
     elif(Buttonname == "shutdown"):
 
-        data = open("PIDinfo.txt")
+        test = open("PIDinfo.txt", "r")
         try:
-            data.read()
+            test.read()
         except:
             open("PIDinfo.txt", "w")
+        test.close()
+       
+
+        foundpid : int = -1
+
+        try:
+            foundpid = int(open("PIDinfo.txt").read())
+        except:
+            pass
 
         
-        data.close()
-        if psutil.pid_exists(int(data.read())):
-            process = psutil.Process(int(data.read()))
-            process.terminate()
-        data.close()
+        try:
+            if psutil.pid_exists(foundpid):
+                process = psutil.Process(foundpid)
+                process.kill()
+                print("attempted termination")
+        except:
+            pass
+
+        dataw = open("PIDinfo.txt", "w")
+        dataw.write("")
+        dataw.close()
             
     
     elif (Buttonname == "settings"):
@@ -436,13 +498,50 @@ while LauncherRunning:
             LauncherRunning = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1: 
+                if(ActiveTextBox == "taskinput"):
+                        focustask = GetTextBoxFromName("taskinput").DisplayStr
+                if(ActiveTextBox == "personalityinput"):
+                        AImood = GetTextBoxFromName("personalityinput").DisplayStr
+
+                if(ActiveTextBox == "strictnessinput"):
+                                    value : int = -1
+                
+                                    try:
+                                        value = int(GetTextBoxFromName("strictnessinput").DisplayStr)
+                                    except:
+                                        pass
+                                    if value != -1:
+                                        if(value < 1):
+                                            value = 1
+                                        if(value > 10):
+                                            value = 10
+                
+                                    AIDifficulty = value
                 result = ButtonInGroupClicked(event.pos[0], event.pos[1], True)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 if(ActiveTextBox == "taskinput"):
                     focustask = GetTextBoxFromName("taskinput").DisplayStr
-                elif(ActiveTextBox == "personalityinput"):
-                    AImood == GetTextBoxFromName("personalityinput").DisplayStr
+ 
+                if(ActiveTextBox == "personalityinput"):
+                    AImood = GetTextBoxFromName("personalityinput").DisplayStr
+
+                if(ActiveTextBox == "strictnessinput"):
+                    value : int = -1
+
+                    try:
+                        value =  int(GetTextBoxFromName("strictnessinput").DisplayStr)
+                    except:
+                        pass
+                    if value != -1:
+                        if(value < 1):
+                            value = 1
+                        if(value > 10):
+                            value = 10
+
+                    AIDifficulty = value
+                    print(AIDifficulty)
+                   
 
 
                

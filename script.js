@@ -3,7 +3,7 @@
  downloadbutton.onclick = function ()
  {
     const link = document.createElement('a');
-    link.href = "testdownload.txt";
+    link.href = "RedderreInstall.dmg";
     link.download = "result";
     document.body.appendChild(link);
     link.click();
