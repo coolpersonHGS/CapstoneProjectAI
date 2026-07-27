@@ -134,7 +134,7 @@ MessageLabel.surfaceobj.fill((255, 255, 255))
 MessageLabel.PositionX = 250
 MessageLabel.PositionY = 100
 MessageLabel.DisplayStr = "Placeholder"
-MessageLabel.FontSize = 20
+MessageLabel.FontSize = 14
 MessageLabel.VisualName = "label"
 
 

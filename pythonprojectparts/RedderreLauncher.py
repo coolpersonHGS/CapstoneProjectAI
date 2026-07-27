@@ -351,9 +351,9 @@ def Buttonclicked(Buttonname):
             if not psutil.pid_exists(foundpid): #No content in the file; no agent is running, so we can create one
                 process = subprocess.Popen(
                             [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RedderreAgent.py"), AImood,   focustask.lower(), str(AIDifficulty) ],
-                            stdout=subprocess.DEVNULL,  
-                            stderr=subprocess.DEVNULL, 
-                            stdin=subprocess.DEVNULL,  
+                            #stdout=subprocess.DEVNULL,  
+                            #stderr=subprocess.DEVNULL, 
+                            #stdin=subprocess.DEVNULL,  
                             start_new_session=True,      
                             cwd=os.path.dirname(os.path.abspath(__file__))
                         )

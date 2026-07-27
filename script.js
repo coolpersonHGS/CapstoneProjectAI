@@ -4,7 +4,7 @@
  {
     const link = document.createElement('a');
     link.href = "RedderreInstall.dmg";
-    link.download = "result";
+    link.download = "RederreInstall";
     document.body.appendChild(link);
     link.click();
     link.remove();
