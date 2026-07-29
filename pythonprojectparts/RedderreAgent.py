@@ -35,6 +35,9 @@ if( len(sys.argv) > 3):
     AImood = sys.argv[1]   # argument 1, AI's mood
     AITask = sys.argv[2]   # argument 2, AI's anti-distraction task
     AIDifficulty = int(sys.argv[3]) #argument 3, difficulty
+    AIDifficulty = max(7, AIDifficulty)
+    AIDifficulty -= 1
+    AIDifficulty = max(1, AIDifficulty)
     AITask = AITask.replace("_", " ")
 else:
     pass
@@ -136,6 +139,14 @@ MessageLabel.PositionY = 100
 MessageLabel.DisplayStr = "Placeholder"
 MessageLabel.FontSize = 14
 MessageLabel.VisualName = "label"
+MessageLabel2 = VisualTextElement()
+MessageLabel2.surfaceobj = pygame.Surface((300, 250))
+MessageLabel2.surfaceobj.fill((255, 255, 255))
+MessageLabel2.PositionX = 250
+MessageLabel2.PositionY = 100
+MessageLabel2.DisplayStr = ""
+MessageLabel2.FontSize = 14
+MessageLabel2.VisualName = "label"
 
 
 
@@ -152,8 +163,8 @@ Distracted = False
 AIprompt = f"""
 You are a helpful and AI that helps people detect when they are distracted from their given task, and supportively encourages them to get back on track. 
 Your current mood for encouraging response is "{AImood}" but feel free to make it seem harsh as needed. The users given task that they want to positively focus on is "{AITask}". You should have a { AIDifficulty-1 if Distracted else AIDifficulty}
-out of 10 level of strictness when detecting if the user is distracted or off track. The attached image is a .jpg image of the User's current screen. For browsers, focus on thier current tab, rather than every tab in their tab bar.
-Based on the aforementioned strictness level and criteria, determine if they are at least 40% off track or distracted. When determining this, ignore any moderately large mostly blank windows, and always assume that they are NOT a distraction and do not hinder focus.
+out of 10 level of strictness when detecting if the user is distracted or off track. The attached image is a .jpg image file of the user's current screen. For browsers, focus on their current tab, rather than every tab in their tab bar.
+Based on the aforementioned strictness level and criteria, determine if they are at least 50% off track or distracted. When determining this, ignore any red boxes that contain a white textbox; if you see any, pretend they do not exist, and assume they will NEVER be a distraction.
  respond with this EXACT format, without any new line characters, but a singular space between each section:
   < 1 or 0, where 1 is they are distracted and 0 meaning they are not. Ignore the rest of the prompt if this is 0.> <IF DISTRACTED: short and encouraging 1 sentence message to get them back on track, with the message being personalized based off the user's current screen. Replace any spaces with underscores for this specific section, and feel free to use punctuation. Remember, messages should be persuasive rather than aggressive>
  <IF DISTRACTED: where you would want an image of you to appear on the screen horizontally between 0 and 100, where 0 is the left most part of the screen >
@@ -242,6 +253,7 @@ while Running: #Never stops unless shutdown/launcher request/task manager tomfoo
         FunnyDude.fill((200, 80, 80))
         Cooldude.Render()
         MessageLabel.DisplayStr = responseparts[1]
+        MessageLabel2.Render()
         MessageLabel.Render()
         pygame.display.flip()
             #I take no credit for this cocoa code; it is pure AI

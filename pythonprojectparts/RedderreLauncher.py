@@ -10,7 +10,6 @@ setproctitle.setproctitle("Redderre_Launcher")
 pygame.init()
 clock = pygame.time.Clock()
 
-print()
 os.chdir(os.getcwd() + '/pythonprojectparts')
 
 #--------------------------------------------------------------------------------------
@@ -351,17 +350,17 @@ def Buttonclicked(Buttonname):
             if not psutil.pid_exists(foundpid): #No content in the file; no agent is running, so we can create one
                 process = subprocess.Popen(
                             [sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "RedderreAgent.py"), AImood,   focustask.lower(), str(AIDifficulty) ],
-                            #stdout=subprocess.DEVNULL,  
-                            #stderr=subprocess.DEVNULL, 
-                            #stdin=subprocess.DEVNULL,  
+                            stdout=subprocess.DEVNULL,  
+                            stderr=subprocess.DEVNULL, 
+                            stdin=subprocess.DEVNULL,  
                             start_new_session=True,      
                             cwd=os.path.dirname(os.path.abspath(__file__))
                         )
-                print("launching...")
+                #print("launching...")
                 with open("PIDinfo.txt", "w") as data: # store the PID
                     data.write(str(process.pid))
                     data.close()
-                    print("wrote to file")
+                 #   print("wrote to file")
         else:
             warnpopup = VisualButtonElement()
             warnpopup.surfaceobj = pygame.image.load('warnpopup.png').convert_alpha()
@@ -394,7 +393,7 @@ def Buttonclicked(Buttonname):
             if psutil.pid_exists(foundpid):
                 process = psutil.Process(foundpid)
                 process.kill()
-                print("attempted termination")
+                #print("attempted termination")
         except:
             pass
 
@@ -463,7 +462,7 @@ def GetTextBoxFromName(name):
         if TextElm3.VisualName == name and isinstance(TextElm3, TextInputBox):
     
             return TextElm3
-    print(f"No textbox with name {name} found.")
+    #print(f"No textbox with name {name} found.")
     return defaultnull
 
 
@@ -540,7 +539,7 @@ while LauncherRunning:
                             value = 10
 
                     AIDifficulty = value
-                    print(AIDifficulty)
+                    #print(AIDifficulty)
                    
 
 
@@ -556,7 +555,7 @@ while LauncherRunning:
             else: 
                 GetTextBoxFromName(ActiveTextBox).DisplayStr += event.unicode
 
-    #
+    
     
     RederreWindow.fill((200, 80, 80))
     RederreWindow.blit(Decor, (0,0))
