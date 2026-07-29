@@ -1,12 +1,10 @@
 import base64
-import os 
 from io import BytesIO
 import sys
 import pygame
 from pygame._sdl2 import Window, Renderer
 import mss
 from Cocoa import NSApp
-import tkinter
 import math
 from PIL import Image
 from dotenv import load_dotenv 
