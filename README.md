@@ -37,20 +37,20 @@ The website is not required for any functionaility, and the python does not inte
 ## Project Structure
 
 ----------------------------
-main/
-    index.html
-    script.js
-    style.css
-    RedderreInstall.dmg (empty placeholder file)
-    RedderreLogo2.png(Website asset)
-    README.md (Your reading this right now!)
-    .gitignore
-    .env (Not present, but should be added with a gpt-4.1-mini API key when replicating this project)
+        main/
+            index.html
+            script.js
+            style.css
+            RedderreInstall.dmg (empty placeholder file)
+            RedderreLogo2.png(Website asset)
+            README.md (Your reading this right now!)
+            .gitignore
+            .env (Not present, but should be added with a gpt-4.1-mini API key when replicating this project)
 
-    pythonprojectparts/ (contains the python + AI parts)
-        RederreLauncher.py (required for launching the agent)
-        RedderreAgent.py (Main AI usage)
-        [REMAINING FILES ARE ASSETS(images) OR NOT REQUIRED FOR REPLICATION]
+            pythonprojectparts/ (contains the python + AI parts)
+                RederreLauncher.py (required for launching the agent)
+                RedderreAgent.py (Main AI usage)
+                [REMAINING FILES ARE ASSETS(images) OR NOT REQUIRED FOR REPLICATION]
 
 
 
