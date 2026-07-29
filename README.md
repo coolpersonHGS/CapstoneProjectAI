@@ -47,10 +47,10 @@ The website is not required for any functionaility, and the python does not inte
             .gitignore
             .env (Not present, but should be added with a gpt-4.1-mini API key when replicating this project)
 
-            pythonprojectparts/ (contains the python + AI parts)
-                RederreLauncher.py (required for launching the agent)
-                RedderreAgent.py (Main AI usage)
-                [REMAINING FILES ARE ASSETS(images) OR NOT REQUIRED FOR REPLICATION]
+                pythonprojectparts/ 
+                    RederreLauncher.py (required for launching the agent)
+                    RedderreAgent.py (Main AI usage)
+                    [REMAINING FILES ARE ASSETS(images) OR NOT REQUIRED FOR REPLICATION]
 
 
 
@@ -112,7 +112,7 @@ Redderre only supports MacOS. Once Redderre is a more complete product, our next
          v  
 Official launch:  
 After the improvement phase, Redderee would be considered “Complete”. Feedback would be looked at less, and changes would be made slower.  
-If the application gained enough traction it would become a service that requires a one time payment. People who installed it before the. 
+If the application gained enough traction it would become a service that requires a one time payment. People who installed it before the 
 official launch would not need to participate in the one time payment.  
 
 
