@@ -7,25 +7,25 @@ to stop users from going off task.
 
 ## Setup [REQUIRES MAC OPERATING SYSTEM]
 
-Step 1 [Clone]:
+Step 1 [Clone]:  
     Clone The project
     run "git clone <ThisGithubProjectURL>" in your folder directory of choice
 
 
-Step 2 [Dependencies]:
+Step 2 [Dependencies]:  
     Install Python dependencies (preferably with pip)
         The following are all mandatory depedencies that require installation
-        -Dotenv
-        -Psutil
-        -Pygame
-        -SetProctitle
-        -Pillow(PIL)
-        -MSS
-        -OpenAI
-        -Cocoa
+                -Dotenv
+                -Psutil
+                -Pygame
+                -SetProctitle
+                -Pillow(PIL)
+                -MSS
+                -OpenAI
+                -Cocoa
 
 
-Step 3 [API]:
+Step 3 [API]:  
     Obtain a gpt-4.1-mini API key
     Put API key in python .env file
 
