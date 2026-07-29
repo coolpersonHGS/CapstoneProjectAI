@@ -14,15 +14,15 @@ Step 1 [Clone]:
 
 Step 2 [Dependencies]:  
     Install Python dependencies (preferably with pip)
-        The following are all mandatory depedencies that require installation
-                -Dotenv
-                -Psutil
-                -Pygame
-                -SetProctitle
-                -Pillow(PIL)
-                -MSS
-                -OpenAI
-                -Cocoa
+        The following are all mandatory depedencies that require installation. 
+                -Dotenv  
+                -Psutil  
+                -Pygame  
+                -SetProctitle  
+                -Pillow(PIL)  
+                -MSS  
+                -OpenAI  
+                -Cocoa  
 
 
 Step 3 [API]:  
